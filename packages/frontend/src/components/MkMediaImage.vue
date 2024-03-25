@@ -13,7 +13,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 		} : {
 			title: image.name,
 			class: $style.imageContainer,
-			href: image.url,
+			href: (() => {
+				var url = image.url;
+				url = url.replace('media.misskeyusercontent.com', 'media.misskeyusercontent.jp');
+
+				return url;
+			})(),
 			style: 'cursor: zoom-in;'
 		}"
 	>
@@ -76,11 +81,17 @@ const props = withDefaults(defineProps<{
 const hide = ref(true);
 const darkMode = ref<boolean>(defaultStore.state.darkMode);
 
-const url = computed(() => (props.raw || defaultStore.state.loadRawImages)
-	? props.image.url
-	: defaultStore.state.disableShowingAnimatedImages
-		? getStaticImageUrl(props.image.url)
-		: props.image.thumbnailUrl,
+const url = computed(() => {
+	props.image.url = props.image.url.replace('media.misskeyusercontent.com', 'media.misskeyusercontent.jp');
+	if (props.image.thumbnailUrl) {
+		props.image.thumbnailUrl = props.image.thumbnailUrl.replace('media.misskeyusercontent.com', 'media.misskeyusercontent.jp');
+	}
+
+	return (props.raw || defaultStore.state.loadRawImages)
+		? props.image.url
+		: defaultStore.state.disableShowingAnimatedImages
+			? getStaticImageUrl(props.image.url)
+			: props.image.thumbnailUrl}
 );
 
 function onclick() {
