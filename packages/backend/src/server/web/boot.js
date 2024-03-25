@@ -34,7 +34,16 @@
 
 	//#region Detect language & fetch translations
 	if (!localStorage.hasOwnProperty('locale')) {
-		const supportedLangs = LANGS;
+		const supportedLangs = [
+			"ar-SA","cs-CZ","da-DK","de-DE",
+			"en-US","es-ES","fr-FR","id-ID",
+			"it-IT","ja-JP","ja-KS","kab-KAB",
+			"kn-IN","ko-KR","nl-NL","no-NO",
+			"pl-PL","pt-PT","ru-RU","sk-SK",
+			"th-TH","ug-CN","uk-UA","vi-VN",
+			"zh-CN","zh-TW"
+		];
+		
 		let lang = localStorage.getItem('lang');
 		if (lang == null || !supportedLangs.includes(lang)) {
 			if (supportedLangs.includes(navigator.language)) {
