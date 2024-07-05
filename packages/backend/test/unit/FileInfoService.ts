@@ -15,6 +15,7 @@ import { GlobalModule } from '@/GlobalModule.js';
 import { FileInfoService } from '@/core/FileInfoService.js';
 //import { DI } from '@/di-symbols.js';
 import { AiService } from '@/core/AiService.js';
+import { LoggerService } from '@/core/LoggerService.js';
 import type { TestingModule } from '@nestjs/testing';
 import type { MockFunctionMetadata } from 'jest-mock';
 
@@ -35,6 +36,7 @@ describe('FileInfoService', () => {
 			],
 			providers: [
 				AiService,
+				LoggerService,
 				FileInfoService,
 			],
 		})
@@ -81,21 +83,21 @@ describe('FileInfoService', () => {
 
 	describe('IMAGE', () => {
 		test('Generic JPEG', async () => {
-			const path = `${resources}/Lenna.jpg`;
+			const path = `${resources}/192.jpg`;
 			const info = await fileInfoService.getFileInfo(path, { skipSensitiveDetection: true }) as any;
 			delete info.warnings;
 			delete info.blurhash;
 			delete info.sensitive;
 			delete info.porn;
 			assert.deepStrictEqual(info, {
-				size: 25360,
-				md5: '091b3f259662aa31e2ffef4519951168',
+				size: 5131,
+				md5: '8c9ed0677dd2b8f9f7472c3af247e5e3',
 				type: {
 					mime: 'image/jpeg',
 					ext: 'jpg',
 				},
-				width: 512,
-				height: 512,
+				width: 192,
+				height: 192,
 				orientation: undefined,
 			});
 		});
@@ -323,8 +325,26 @@ describe('FileInfoService', () => {
 			});
 		});
 
-		/*
-		 * video/webmとして検出されてしまう
+		test('MPEG-4 AUDIO (M4A)', async () => {
+			const path = `${resources}/kick_gaba7.m4a`;
+			const info = await fileInfoService.getFileInfo(path, { skipSensitiveDetection: true }) as any;
+			delete info.warnings;
+			delete info.blurhash;
+			delete info.sensitive;
+			delete info.porn;
+			delete info.width;
+			delete info.height;
+			delete info.orientation;
+			assert.deepStrictEqual(info, {
+				size: 9817,
+				md5: '74c9279a4abe98789565f1dc1a541a42',
+				type: {
+					mime: 'audio/mp4',
+					ext: 'm4a',
+				},
+			});
+		});
+
 		test('WEBM AUDIO', async () => {
 			const path = `${resources}/kick_gaba7.webm`;
 			const info = await fileInfoService.getFileInfo(path, { skipSensitiveDetection: true }) as any;
@@ -337,13 +357,12 @@ describe('FileInfoService', () => {
 			delete info.orientation;
 			assert.deepStrictEqual(info, {
 				size: 8879,
-				md5: '3350083dec312419cfdc06c16413aca7',
+				md5: '53bc1adcb6acbbda67ff9bd484896438',
 				type: {
 					mime: 'audio/webm',
 					ext: 'webm',
 				},
 			});
 		});
-		 */
 	});
 });
