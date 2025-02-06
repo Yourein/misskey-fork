@@ -24,9 +24,14 @@ const options = {
 };
 
 // built配下をすべて削除する
-fs.rmSync('./built', { recursive: true, force: true });
+const args = process.argv.slice(2).map(arg => arg.toLowerCase());
 
-if (process.argv.map(arg => arg.toLowerCase()).includes('--watch')) {
+// built配下をすべて削除する
+if (!args.includes('--no-clean')) {
+	fs.rmSync('./built', { recursive: true, force: true });
+}
+
+if (args.includes('--watch')) {
 	await watchSrc();
 } else {
 	await buildSrc();
@@ -95,7 +100,6 @@ async function watchSrc() {
 		process.on('SIGHUP', resolve);
 		process.on('SIGINT', resolve);
 		process.on('SIGTERM', resolve);
-		process.on('SIGKILL', resolve);
 		process.on('uncaughtException', reject);
 		process.on('exit', resolve);
 	}).finally(async () => {
