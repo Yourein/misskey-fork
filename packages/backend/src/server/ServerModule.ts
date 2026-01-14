@@ -25,6 +25,7 @@ import { SignupApiService } from './api/SignupApiService.js';
 import { StreamingApiServerService } from './api/StreamingApiServerService.js';
 import { OpenApiServerService } from './api/openapi/OpenApiServerService.js';
 import { ClientServerService } from './web/ClientServerService.js';
+import { HtmlTemplateService } from './web/HtmlTemplateService.js';
 import { FeedService } from './web/FeedService.js';
 import { UrlPreviewService } from './web/UrlPreviewService.js';
 import { ClientLoggerService } from './web/ClientLoggerService.js';
@@ -44,6 +45,8 @@ import { QueueStatsChannelService } from './api/stream/channels/queue-stats.js';
 import { ServerStatsChannelService } from './api/stream/channels/server-stats.js';
 import { UserListChannelService } from './api/stream/channels/user-list.js';
 import { RoleTimelineChannelService } from './api/stream/channels/role-timeline.js';
+import { ChatUserChannelService } from './api/stream/channels/chat-user.js';
+import { ChatRoomChannelService } from './api/stream/channels/chat-room.js';
 import { ReversiChannelService } from './api/stream/channels/reversi.js';
 import { ReversiGameChannelService } from './api/stream/channels/reversi-game.js';
 import { SigninWithPasskeyApiService } from './api/SigninWithPasskeyApiService.js';
@@ -56,6 +59,7 @@ import { SigninWithPasskeyApiService } from './api/SigninWithPasskeyApiService.j
 	providers: [
 		ClientServerService,
 		ClientLoggerService,
+		HtmlTemplateService,
 		FeedService,
 		HealthServerService,
 		UrlPreviewService,
@@ -84,6 +88,8 @@ import { SigninWithPasskeyApiService } from './api/SigninWithPasskeyApiService.j
 		GlobalTimelineChannelService,
 		HashtagChannelService,
 		RoleTimelineChannelService,
+		ChatUserChannelService,
+		ChatRoomChannelService,
 		ReversiChannelService,
 		ReversiGameChannelService,
 		HomeTimelineChannelService,
